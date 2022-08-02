@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div{
+            border:2px solid red;
+            max-height:600px;
+            width:800px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hello</h1>
+    <div>
+        <canvas id="myc"></canvas>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        function apicall()
+        {
+            var arr = [];
+            var newarr=[];
+            var url = "https://data.covid19india.org/v4/min/data.min.json";
+            $.get(url,function(d){
+                console.log(d.MH.districts)
+                var stateObj = d.MH.districts;
+                for (key in stateObj)
+                {
+                    var temp = new Object;
+                    temp.district = key;
+                    temp.cases = stateObj[key].total.confirmed;
+                    arr.push(temp)
+                }
+                console.log("before sorting...");
+                console.log(arr)
+                console.log("after sorting...");
+                arr.sort(function(a,b){
+                return (a.cases-b.cases)*-1 })
+                console.log(arr)
+                newarr = arr.slice(0,5)
+                console.log("district with highest cases",newarr)
+                const result = newarr.map(function (el) { return el.district; });
+                var nameArray = newarr.map(function (el) { return el.cases; });
+                console.log("lables",result);
+                console.log("values to plot",nameArray)
+                const ctx = document.getElementById('myc').getContext('2d');
+                const myChart = new Chart(ctx,{
+                    type:'bar',
+                    data:{
+                        lables:result,
+                        datasets:[{
+                            label:'number of cases',
+                            data:nameArray,
+                            backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                            ],
+                            borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                            ],
+
+                        }],
+                        options:{
+                            scales: {
+                                    y: {
+                                          beginAtZero: true
+                                       }
+                                    }
+                        }
+                    }
+                });
+
+            })//end of get function
+            console.log("outside get function",newarr)
+        } //end of apicall function
+        apicall()
+
+        </script>
+        
+</body>
+</html>
+

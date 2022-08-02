@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid 19 DashBoard</title>
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<style>
+    h1{
+        text-align: center;
+        color: black;
+        text-shadow: cadetblue;
+    }
+    tr,table{
+        width:100%;
+        text-align: center;
+    }
+    table{
+        border-collapse: collapse;
+    }
+    th{
+        font-size: 2rem;
+        color: #92a8d1;
+        padding:20px 0 20px 0 ;
+    }
+    tr{
+        border:none;
+        color:black;
+        font-size: 1.4rem;
+        text-align: left;
+       
+    }
+    #heading{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #heading img{
+        width:150px;
+        height:150px;
+    }
+    tbody tr:nth-child(even) {
+  background-color:#F5F5F5;
+    }
+    tbody{
+        padding: 20px;
+    }
+    #recover:hover{
+        background-color: rgb(164, 226, 164);
+        color:rgb(241, 233, 233);
+        transform: scale(1,1.2);
+        z-index: -1;
+    }
+    #userinput{
+        font-size: 1.3rem;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div id="userinput">
+            <form id="stateopts">
+                <select id="myselect">
+                        <option value="AN">Andaman and Nicobar Islands</option>
+                        <option value="AP" name="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="AR">Arunachal Pradesh</option>
+                        <option value="AS">Assam</option>
+                        <option value="BR">Bihar</option>
+                        <option value="CG">Chandigarh</option>
+                        <option value="CH">Chhattisgarh</option>
+                        <option value="DH">Dadra and Nagar Haveli</option>
+                        <option value="DD">Daman and Diu</option>
+                        <option value="DL">Delhi</option>
+                        <option value="GA">Goa</option>
+                        <option value="GJ">Gujarat</option>
+                        <option value="HR">Haryana</option>
+                        <option value="HP">Himachal Pradesh</option>
+                        <option value="JK">Jammu and Kashmir</option>
+                        <option value="JH">Jharkhand</option>
+                        <option value="KA">Karnataka</option>
+                        <option value="KL">Kerala</option>
+                        <option value="LD">Lakshadweep</option>
+                        <option value="MP">Madhya Pradesh</option>
+                        <option value="MH" selected>Maharashtra</option>
+                        <option value="MN">Manipur</option>
+                        <option value="ML">Meghalaya</option>
+                        <option value="MZ">Mizoram</option>
+                        <option value="NL">Nagaland</option>
+                        <option value="OR">Odisha</option>
+                        <option value="PY">Puducherry</option>
+                        <option value="PB">Punjab</option>
+                        <option value="RJ">Rajasthan</option>
+                        <option value="SK">Sikkim</option>
+                        <option value="TN">Tamil Nadu</option>
+                        <option value="TS">Telangana</option>
+                        <option value="TR">Tripura</option>
+                        <option value="UP">Uttar Pradesh</option>
+                        <option value="UK">Uttarakhand</option>
+                        <option value="WB">West Bengal</option>
+                      
+                </select>
+                <button type="submit">GO</button>
+            </form>
+        </div>
+        <div id="heading">
+            <div><img src="logo.png"></div>
+            <div><h1>Covid 19 Latest Report For <span id="h1state">Maharashtra</span> State</h1></div>
+            <div><h4 id="date"></h4></div>
+        </div>
+        
+        <br><br>
+
+        <table>
+            <thead>
+            <th>Districts</th>
+            <th>TotalConfirmed</th>
+            <th>TotalRecovered</th>
+            <th>Vaccinated1</th>
+            </thead>
+            <tbody id="tablebody">
+
+            </tbody>
+        </table>
+
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready()
+        {
+
+            var url = "https://api.covid19api.com/summary"
+        var retdata=``
+        
+        function init()
+        {
+            $.get(url,function(data){
+                console.log(data)
+                retdata = `<td>${data.Global.TotalConfirmed}</td>
+                <td>${data.Global.TotalRecovered}</td>
+                <td>${data.Global.TotalDeaths}</td>`
+                console.log("retdata",retdata)
+                $("#root").html(retdata);
+            })
+        }
+
+        function statewise(state)
+        {
+            var url = "https://data.covid19india.org/v4/min/data.min.json"
+            $.get(url,function(data){
+                var target_state=  data[state].districts
+                console.log("check point",target_state)
+                var obj = target_state
+                //console.log("obj",obj)
+
+                for (var key in target_state) {
+                    //console.log("obj->key",obj[key].total.confirmed)
+                   var entry = `<tr>
+                   <td>${key}</td> 
+                   <td>${obj[key].total.confirmed}</td>
+                   <td id="recover">${obj[key].total.recovered}</td>
+                   <td>${obj[key].total.vaccinated1}</td>
+                    
+                    </tr> <br>`
+                   console.log("key ", key)
+                  $("#tablebody").append(entry)
+                }
+            })
+        }//"getDate()"
+        var dt = new Date();
+        var dtt = dt.getDate();
+        var mt = dt.getMonth();
+        var yy = dt.getFullYear();
+        $("#date").html(`${dtt}/${mt}/${yy}`)
+        statewise("MH")
+        document.getElementById("stateopts").addEventListener("submit",function(){
+            console.log("submit btn got clicked")
+            var state =  $("#myselect option:selected").val()
+            var state_name =  $("#myselect option:selected").text()
+            console.log(state)
+            $("#h1state").html(state_name)
+            $("#tablebody").html('')
+            statewise(state)
+            event.preventDefault();
+        })
+        }
+    </script>
+</body>
+</html>

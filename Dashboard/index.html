@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Covid DashBoard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="upper">
+
+        <div class="statecard">
+            
+                <form id="stateopts">
+                    <select id="myselect">
+                            <!-- <option value="AN">Andaman and Nicobar Islands</option> -->
+                            <option value="AP" name="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="AR">Arunachal Pradesh</option>
+                            <!-- <option value="AS">Assam</option> -->
+                            <option value="BR">Bihar</option>
+                            <option value="CH">Chandigarh</option>
+                            <option value="CT">Chhattisgarh</option>
+                            <option value="DN">Daman and Diu</option>
+                            <option value="DL">Delhi</option>
+                            <option value="GA">Goa</option>
+                            <option value="GJ">Gujarat</option>
+                            <option value="HR">Haryana</option>
+                            <option value="HP">Himachal Pradesh</option>
+                            <option value="JK">Jammu & Kashmir</option>
+                            <!-- <option value="JH">Jharkhand</option> -->
+                            <option value="KA">Karnataka</option>
+                            <option value="KL">Kerala</option>
+                            <option value="LD">Lakshadweep</option>
+                            <option value="MP">Madhya Pradesh</option>
+                            <option value="MH" selected>Maharashtra</option>
+                            <!-- <option value="MN">Manipur</option> -->
+                            <option value="ML">Meghalaya</option>
+                            <option value="MZ">Mizoram</option>
+                            <option value="NL">Nagaland</option>
+                            <option value="OR">Odisha</option>
+                            <option value="PY">Puducherry</option>
+                            <option value="PB">Punjab</option>
+                            <option value="RJ">Rajasthan</option>
+                            <!-- <option value="SK">Sikkim</option> -->
+                            <option value="TN">Tamil Nadu</option>
+                            <!-- <option value="TG">Telangana</option> -->
+                            <option value="TR">Tripura</option>
+                            <option value="UP">Uttar Pradesh</option>
+                            <option value="UT">Uttarakhand</option>
+                            <option value="WB">West Bengal</option>
+                          
+                    </select>
+                    <button type="submit" style="width: 100%;background-color: cadetblue;color: white; margin-top: 8px;"><b>GO</b></button>
+                </form>
+            
+        </div>
+
+        <div class="card">
+            <div class="cardhead">
+                <div><h3 class="cardtext">Total</h3></div>
+                <div><img src="arrow-up.png"></div>
+            </div>
+            <div class="neg_margin">
+              <span class="co_blue big_num counter" id="dtotal" >7,530,402,345</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cardhead">
+                <div><h3 class="cardtext">Recovered</h3></div>
+                <div><img src="arrow-right.png"></div>
+            </div>
+            <div class="neg_margin">
+              <span class="co_blue big_num" id="drecovered">7,530,402,345</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cardhead">
+                <div><h3 class="cardtext">Deaths</h3></div>
+                <div><img src="arrow-up.png"></div>
+            </div>
+            <div class="neg_margin">
+              <span class="co_blue big_num" id="ddeaths">7,530,402,345</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cardhead">
+                <div><h3 class="cardtext">Vaccinated 1</h3></div>
+                <div><img src="arrow-up.png"></div>
+            </div>
+            <div class="neg_margin">
+              <span class="co_blue big_num" id="dvac1" >7,530,402,345</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="cardhead">
+                <div><h3 class="cardtext">Vaccinated 2</h3></div>
+                <div><img src="arrow-right.png"></div>
+            </div>
+            <div class="neg_margin">
+              <span class="co_blue big_num" id="dvac2">7,530,402,345</span>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div id="lower">
+
+        <div id="lower_left">
+
+            <table>
+                
+                <th>
+                    District
+                </th>
+                <th>
+                    Reported Cases
+                </th>
+
+                <tbody id="tablebody">
+                  
+                </tbody>
+                
+            </table>
+
+        </div>
+
+        <div id="lower_right">
+
+            <div id="barplot">
+               
+                <canvas id="myc"></canvas>
+            </div>
+            <!-- <hr style="background-color:cadetblue; display:block"> -->
+            <div id="piechart">
+                <canvas id="myc1_pie"></canvas>
+            </div>
+            <!-- <hr> -->
+            <div id="doughnut">
+                <canvas id="myc1_dou"></canvas>
+            </div>
+        </div>
+
+        <div id="newscol">
+            <h1>Vaccination center</h1>
+            <form id="vaccination_center">
+                <label>Enter Your Pin Code</label>&nbsp;&nbsp;
+                <input type="text" id="pincode"><br><br>
+                <label>Select Date For Vaccination</label>&nbsp;&nbsp;
+                <input type="date" id="vac_date">
+                <br><br>
+                <button type="submit">Search</button>
+            </form>
+            <!-- <hr> -->
+            <div id="vac_parent">
+                
+            </div>
+            
+        </div
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="main.js"></script>
+    <script src="https://unpkg.com/counterup2@2.0.2/dist/index.js">	</script>
+</body>
+</html>
